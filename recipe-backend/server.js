@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());  // Middleware for parsing JSON request bodies
 
 app.use(cors({
-    origin: ['https://recipe-app-bacckendd.vercel.app','http://localhost:3000' ],
+    origin: ['https://recipe-app-bacckendd.vercel.app','http://localhost:3000', 'https://recipe-app-frrontennd.vercel.app/' ],
     credentials: true,
   }));
 
