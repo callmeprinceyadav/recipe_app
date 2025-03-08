@@ -10,7 +10,7 @@ function RecipePage() {
   useEffect(() => {
     // Fetch the recipe details
     axios
-      .get(`http://localhost:5000/api/recipes/${id}`)
+      .get(`https://recipe-app-bacckendd.vercel.app/api/recipes/${id}`)
       .then((response) => {
         setRecipeDetails(response.data);
         setLoading(false);

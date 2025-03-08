@@ -10,7 +10,7 @@ function Home() {
   useEffect(() => {
     // Fetching recipes data from your backend
     axios
-      .get('http://localhost:5000/api/recipes/search?query=chicken&diet=vegetarian')
+      .get('https://recipe-app-bacckendd.vercel.app/api/recipes/search?query=chicken&diet=vegetarian')
       .then((response) => {
         setRecipes(response.data);
         setLoading(false);
