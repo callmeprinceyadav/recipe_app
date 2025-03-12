@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import RecipeList from '../components/RecipeList';
 import LoadingSkeleton from '../components/LoadingSkeleton';
-import './Home.css'
+import './Home.css';
 
 function Home() {
   const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('vegetarian'); // Default search query
+  const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // Empty search initially
   const [category, setCategory] = useState('vegetarian'); // Default category
-
-  useEffect(() => {
-    fetchRecipes(category); // Initial fetch with default category
-  }, [category]);
+  const [favourites, setFavourites] = useState([]); // For storing favourite recipes
 
   const fetchRecipes = (query) => {
     setLoading(true);
@@ -30,12 +27,22 @@ function Home() {
 
   const handleCategoryChange = (category) => {
     setCategory(category);
-    setSearchQuery(category);
+    setSearchQuery(category); // Set the query to the category when category is selected
+  };
+
+  const handleSearch = () => {
+    fetchRecipes(searchQuery); // Fetch recipes only after clicking "Search"
+  };
+
+  const addToFavourites = (recipe) => {
+    setFavourites([...favourites, recipe]); // Add recipe to favourites
   };
 
   return (
     <div className="home">
       <h1>Recipe List</h1>
+
+      {/* Search and Category Selector */}
       <div className="search-container">
         <input
           type="text"
@@ -44,7 +51,7 @@ function Home() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search-input"
         />
-        <button onClick={() => fetchRecipes(searchQuery)} className="search-button">
+        <button onClick={handleSearch} className="search-button">
           Search
         </button>
       </div>
@@ -82,11 +89,22 @@ function Home() {
         </button>
       </div>
 
+      {/* Loading Skeleton or Recipe List */}
       {loading ? (
         <LoadingSkeleton />
       ) : (
-        <RecipeList recipes={recipes} />
+        <RecipeList recipes={recipes} addToFavourites={addToFavourites} />
       )}
+
+      {/* Favourite Recipes Section */}
+      <div className="favourites">
+        <h2>Favourite Recipes</h2>
+        <ul>
+          {favourites.map((recipe, index) => (
+            <li key={index}>{recipe.title}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
