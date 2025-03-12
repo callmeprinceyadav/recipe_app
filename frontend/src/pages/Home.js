@@ -3,6 +3,7 @@ import axios from 'axios';
 import RecipeList from '../components/RecipeList';
 import LoadingSkeleton from '../components/LoadingSkeleton';
 import ErrorAlert from '../components/ErrorAlert';  // Import the ErrorAlert component
+import Navbar from '../components/Navbar';
 
 function Home() {
   const [recipes, setRecipes] = useState([]);
@@ -43,8 +44,9 @@ function Home() {
 
   return (
     <div className="home">
-      <h1>Recipe List</h1>
-
+      <div>
+        < Navbar />
+      </div>
       {/* Search and Category Selector */}
       <div className="search-container">
         <input
