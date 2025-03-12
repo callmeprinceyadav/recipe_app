@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import RecipeList from '../components/RecipeList';
 import LoadingSkeleton from '../components/LoadingSkeleton';
-import './Home.css';
+import ErrorAlert from '../components/ErrorAlert';  // Import the ErrorAlert component
 
 function Home() {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(''); // Empty search initially
+  const [searchQuery, setSearchQuery] = useState(''); 
   const [category, setCategory] = useState('vegetarian'); // Default category
   const [favourites, setFavourites] = useState([]); // For storing favourite recipes
+  const [error, setError] = useState(null); // Error state to trigger error alert
 
   const fetchRecipes = (query) => {
     setLoading(true);
+    setError(null); // Reset error before each fetch
     axios
       .get(`https://recipe-app-bacckendd.vercel.app/api/recipes/search?query=diet=${query}`)
       .then((response) => {
@@ -22,6 +24,7 @@ function Home() {
       .catch((error) => {
         console.error('Error fetching recipes:', error);
         setLoading(false);
+        setError("There is an API limit reached error or please check the console for more details."); // Set error message
       });
   };
 
@@ -88,6 +91,9 @@ function Home() {
           Keto
         </button>
       </div>
+
+      {/* Display ErrorAlert if error occurs */}
+      {error && <ErrorAlert />}
 
       {/* Loading Skeleton or Recipe List */}
       {loading ? (
